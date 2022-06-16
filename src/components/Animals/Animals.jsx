@@ -1,4 +1,7 @@
 import React from 'react';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 let animals = [
   "https://cdn.pixabay.com/photo/2015/04/10/01/41/fox-715588__340.jpg",
@@ -9,9 +12,26 @@ let animals = [
 ]
 
 function Animals() {
+  const [fav,setFav] = useState( '' );
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const favChange=()=>{
+    setFav( event.target.value );
+  }
+
+  const setFavAnimal = ()=>{
+    dispatch( {type: 'SET_FAV', payload: fav } );
+    history.push( '/home' );
+  }
+
   return (
     <div>
       <h1>ANIMALS</h1>
+      <p>
+        <input type="text" placeholder="fav" onChange={ favChange }></input>
+        <button onClick={ setFavAnimal }>Set Fav Animal</button>
+      </p>
 
       {animals.map((animal, i) => 
         <img 
